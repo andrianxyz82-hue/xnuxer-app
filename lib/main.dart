@@ -12,35 +12,27 @@ void main() async {
   // Initialize Supabase
   try {
     await SupabaseService.initialize();
-  } catch (e) {
-    debugPrint('Failed to initialize Supabase: $e');
-  }
-
-  bool _hasShownError = false;
-
-  // 🚨 CRITICAL: Custom error handling - DO NOT REMOVE
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    if (!_hasShownError) {
-      _hasShownError = true;
-
-      // Reset flag after 3 seconds to allow error widget on new screens
-      Future.delayed(Duration(seconds: 5), () {
-        _hasShownError = false;
-      });
-
-      return CustomErrorWidget(
-        errorDetails: details,
-      );
-    }
-    return SizedBox.shrink();
-  };
-
-  // 🚨 CRITICAL: Device orientation lock - DO NOT REMOVE
-  Future.wait([
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-  ]).then((value) {
     runApp(MyApp());
-  });
+  } catch (e) {
+    runApp(ErrorApp(error: e));
+  }
+}
+
+class ErrorApp extends StatelessWidget {
+  final Object error;
+
+  const ErrorApp({Key? key, required this.error}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: CustomErrorWidget(
+          errorDetails: FlutterErrorDetails(exception: error),
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

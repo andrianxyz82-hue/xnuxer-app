@@ -147,10 +147,10 @@ class _LoginScreenState extends State<LoginScreen>
 
         if (mounted) {
           if (userProfile?.isAdmin == true) {
-            Navigator.pushReplacementNamed(context, '/admin-dashboard');
+            Navigator.pushReplacementNamed(context, AppRoutes.adminDashboard);
           } else {
             Navigator.pushReplacementNamed(
-                context, '/free-fire-nickname-generator');
+                context, AppRoutes.freeFireNicknameGenerator);
           }
         }
       } else {
@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen>
                       style: GoogleFonts.inter(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w400,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withOpacity(0.9),
                       ),
                     ),
                   ],
@@ -292,11 +292,11 @@ class _LoginScreenState extends State<LoginScreen>
                         decoration: BoxDecoration(
                           color: AppTheme
                               .lightTheme.colorScheme.primaryContainer
-                              .withValues(alpha: 0.1),
+                              .withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: AppTheme.lightTheme.colorScheme.primary
-                                .withValues(alpha: 0.2),
+                                .withOpacity(0.2),
                             width: 1,
                           ),
                         ),
@@ -339,6 +339,35 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
 
                       SizedBox(height: 2.h),
+
+                      // Register Link
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Belum punya akun?',
+                            style: GoogleFonts.inter(
+                              fontSize: 12.sp,
+                              color: AppTheme.lightTheme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: _isLoading
+                                ? null
+                                : () {
+                                    Navigator.pushNamed(context, AppRoutes.register);
+                                  },
+                            child: Text(
+                              'Daftar',
+                              style: GoogleFonts.inter(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.lightTheme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
